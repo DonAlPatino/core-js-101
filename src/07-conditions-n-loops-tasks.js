@@ -78,7 +78,7 @@ function getSumBetweenNumbers(n1, n2) {
  * @param {number} a
  * @param {number} b
  * @param {number} c
- * @return {bool}
+ * @return {boolean}
  *
  * @example:
  *   1,2,3    =>  false
@@ -86,8 +86,9 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  if (a <= 0 || b <= 0 || c <= 0) return false;
+  return a + b > c && a + c > b && c + b > a;
 }
 
 
@@ -170,8 +171,18 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const txtArr = str.split('');
+  const objCnt = txtArr.reduce((accum, currVal) => {
+    // eslint-disable-next-line no-param-reassign
+    accum[currVal] = (accum[currVal] || 0) + 1;
+    return accum;
+  }, {});
+  // eslint-disable-next-line no-restricted-syntax
+  for (const key in objCnt) {
+    if (objCnt[key] === 1) return key;
+  }
+  return null;
 }
 
 
