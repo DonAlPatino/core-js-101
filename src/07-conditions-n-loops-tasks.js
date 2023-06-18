@@ -114,7 +114,7 @@ function isTriangle(a, b, c) {
  *
  * @param {object} rect1
  * @param {object} rect2
- * @return {bool}
+ * @return {boolean}
  *
  * @example:
  *   { top: 0, left: 0, width: 10, height: 10 },
@@ -124,8 +124,10 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  return !(rect2.top > rect1.top + rect1.height || rect2.left > rect1.left + rect1.width
+    || rect2.top + rect2.height < rect1.top
+    || rect2.left + rect2.width < rect1.left);
 }
 
 
@@ -148,15 +150,17 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *
  * @param {object} circle
  * @param {object} point
- * @return {bool}
+ * @return {boolean}
  *
  * @example:
  *   { center: { x:0, y:0 }, radius:10 },  { x:0, y:0 }     => true
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  return Math.sqrt(
+    (point.x - circle.center.x) ** 2 + (point.y - circle.center.y) ** 2,
+  ) < circle.radius;
 }
 
 
@@ -208,8 +212,10 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  const leftBracket = isStartIncluded ? '[' : '(';
+  const rightBracket = isEndIncluded ? ']' : ')';
+  return `${leftBracket}${Math.min(a, b)}, ${Math.max(a, b)}${rightBracket}`;
 }
 
 
@@ -267,9 +273,24 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  const arr = [];
+  let numToCalculate = Math.floor(ccn / 10);
+  const controlSum = Number(String(ccn).split('').reverse()[0]);
+  const len = numToCalculate.toString().length;
+  for (let i = 0; i < len; i += 1) {
+    if (i % 2 === 0) {
+      const temp = (numToCalculate % 10) * 2;
+      if (temp.toString().length === 2) arr.push((temp % 10) + Math.floor(temp / 10));
+      else arr.push(temp);
+    } else arr.push(numToCalculate % 10);
+    numToCalculate = Math.floor(numToCalculate / 10);
+  }
+  let checkSum = 10 - (arr.reduce((sum, cur) => sum + cur, 0) % 10);
+  if (checkSum === 10) checkSum = 0;
+  return checkSum === controlSum;
 }
+
 
 /**
  * Returns the digital root of integer:
