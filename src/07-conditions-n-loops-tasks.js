@@ -306,8 +306,18 @@ function isCreditCardNumber(ccn) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  let n = num;
+  let root = 0;
+  while (n > 0 || root > 9) {
+    if (n === 0) {
+      n = root;
+      root = 0;
+    }
+    root += n % 10;
+    n = parseInt(n / 10, 10);
+  }
+  return root;
 }
 
 
@@ -332,8 +342,29 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(s) {
+  // throw new Error('Not implemented');
+  if (typeof s !== 'string' || s.length % 2 !== 0) return false;
+  let i = 0;
+  const arr = [];
+  while (i < s.length) {
+    if (s[i] === '{' || s[i] === '(' || s[i] === '[' || s[i] === '<') {
+      arr.push(s[i]);
+    } else if (s[i] === '}' && arr[arr.length - 1] === '{') {
+      arr.pop();
+    } else if (s[i] === ')' && arr[arr.length - 1] === '(') {
+      arr.pop();
+    } else if (s[i] === ']' && arr[arr.length - 1] === '[') {
+      arr.pop();
+    } else if (s[i] === '>' && arr[arr.length - 1] === '<') {
+      arr.pop();
+    } else {
+      return false;
+    }
+    // eslint-disable-next-line no-plusplus
+    i++;
+  }
+  return arr.length === 0;
 }
 
 
@@ -357,8 +388,9 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  // throw new Error('Not implemented');
+  return num.toString(n);
 }
 
 
