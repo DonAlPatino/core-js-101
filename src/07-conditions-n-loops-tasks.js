@@ -446,7 +446,6 @@ function getCommonDirectoryPath(pathes) {
 function getMatrixProduct(m1, m2) {
   const aNumRows = m1.length;
   const aNumCols = m1[0].length;
-  // const bNumRows = m2.length;
   const bNumCols = m2[0].length;
   const m = new Array(aNumRows);
   // eslint-disable-next-line no-plusplus
