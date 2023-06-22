@@ -494,8 +494,34 @@ function getMatrixProduct(m1, m2) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function winnerQ(gameBoard, p1, p2, p3) {
+  const s = gameBoard;
+  const c1 = s[p1];
+  if (c1 === undefined) return undefined;
+  const c2 = s[p2];
+  if (c1 !== c2) return undefined;
+  const c3 = s[p3];
+  if (c1 !== c3) return undefined;
+  return c1;
+}
+function evaluateTicTacToePosition(position) {
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < 3; i++) {
+    // eslint-disable-next-line no-plusplus
+    for (let j = 0; j < 3; j++) {
+      // eslint-disable-next-line no-param-reassign
+      if (!position[i][j]) position[i][j] = undefined;
+    }
+  }
+  const gameBoard = position.flat();
+  return winnerQ(gameBoard, 0, 1, 2) // check for 3-in-a-row horizontally
+    || winnerQ(gameBoard, 3, 4, 5)
+    || winnerQ(gameBoard, 6, 7, 8)
+    || winnerQ(gameBoard, 0, 3, 6) // check for 3-in-a-row vertically
+    || winnerQ(gameBoard, 1, 4, 7)
+    || winnerQ(gameBoard, 2, 5, 8)
+    || winnerQ(gameBoard, 0, 4, 8) // check for 3-in-a-row diagonally
+    || winnerQ(gameBoard, 6, 4, 2);
 }
 
 
